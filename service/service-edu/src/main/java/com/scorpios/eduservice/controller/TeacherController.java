@@ -1,6 +1,7 @@
 package com.scorpios.eduservice.controller;
 
 
+import com.scorpios.common.utils.CommonResponse;
 import com.scorpios.eduservice.entity.Teacher;
 import com.scorpios.eduservice.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,14 @@ public class TeacherController {
     TeacherService teacherService;
 
     @GetMapping("/all")
-    public List<Teacher> findAll(){
+    public CommonResponse findAll(){
         List result = teacherService.list(null);
-        return result;
+        return CommonResponse.ok().data("list",result);
     }
 
     @DeleteMapping("/{id}")
-    public boolean removeById(@PathVariable String id){
-        return teacherService.removeById(id);
+    public CommonResponse removeById(@PathVariable String id){
+        return CommonResponse.ok().data("result",true);
     }
 
 }
