@@ -1,5 +1,6 @@
 package com.scorpios.eduservice.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -17,8 +18,9 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="EduTeacher对象", description="讲师")
-public class EduTeacher implements Serializable {
+@TableName("edu_teacher")
+@ApiModel(value="Teacher对象", description="讲师")
+public class Teacher implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,5 +54,6 @@ public class EduTeacher implements Serializable {
 
     @ApiModelProperty(value = "更新时间")
     private Date gmtModified;
+
 
 }

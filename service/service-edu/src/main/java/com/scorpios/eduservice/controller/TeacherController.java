@@ -1,9 +1,12 @@
 package com.scorpios.eduservice.controller;
 
-import com.scorpios.eduservice.service.EduTeacherService;
+
+import com.scorpios.eduservice.entity.Teacher;
+import com.scorpios.eduservice.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -14,15 +17,15 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/eduService/teacher")
-public class EduTeacherController {
-
+public class TeacherController {
 
     @Autowired
-    EduTeacherService eduTeacherService;
+    TeacherService teacherService;
+
 
     @GetMapping("/all")
-    public List findAll(){
-        List result = eduTeacherService.list(null);
+    public List<Teacher> findAll(){
+        List result = teacherService.list(null);
         return result;
     }
 
