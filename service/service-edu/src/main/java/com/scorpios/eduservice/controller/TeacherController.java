@@ -93,7 +93,6 @@ public class TeacherController {
         return CommonResponse.ok().data("total",total).data("list",list);
     }
 
-
     @ApiOperation(value = "新增讲师")
     @PostMapping("/saveTeacher")
     public CommonResponse saveTeacher(
@@ -102,7 +101,6 @@ public class TeacherController {
         teacherService.save(teacher);
         return CommonResponse.ok();
     }
-
 
     @ApiOperation(value = "根据ID查询讲师")
     @GetMapping("/getTeacher/{id}")
@@ -113,7 +111,6 @@ public class TeacherController {
         return CommonResponse.ok().data("item", teacher);
     }
 
-
     @ApiOperation(value = "根据ID修改讲师")
     @PostMapping("/updateTeacher/{id}")
     public CommonResponse updateTeacherById(
@@ -122,8 +119,6 @@ public class TeacherController {
         teacherService.updateById(teacher);
         return CommonResponse.ok();
     }
-
-
 
 }
 
