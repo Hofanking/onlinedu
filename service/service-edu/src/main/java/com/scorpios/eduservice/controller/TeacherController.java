@@ -23,6 +23,7 @@ import java.util.List;
 @Api(description = "讲师管理")
 @RestController
 @RequestMapping("/eduService/teacher")
+@CrossOrigin
 public class TeacherController {
 
     @Autowired
@@ -34,15 +35,6 @@ public class TeacherController {
         List result = teacherService.list(null);
         return CommonResponse.ok().data("list",result);
     }
-
-    @ApiOperation(value = "根据ID删除讲师")
-    @DeleteMapping("/removeTeacher/{id}")
-    public CommonResponse removeTeacherById(
-            @ApiParam(name = "id", value = "讲师ID", required = true)
-            @PathVariable String id){
-        return CommonResponse.ok().data("result",true);
-    }
-
 
     @ApiOperation(value = "分页讲师列表")
     @GetMapping("/pageTeacherList/{page}/{limit}")
@@ -63,9 +55,9 @@ public class TeacherController {
     @PostMapping("/pageTeacherListByCondition/{page}/{limit}")
     public CommonResponse pageQuery(
             @ApiParam(name = "page", value = "当前页码", required = true)
-            @PathVariable Long page,
+            @PathVariable int page,
             @ApiParam(name = "limit", value = "每页记录数", required = true)
-            @PathVariable Long limit,
+            @PathVariable int limit,
             @ApiParam(name = "teacherQuery", value = "查询对象", required = false)
             @RequestBody TeacherQuery teacherQuery
     ){
@@ -112,13 +104,24 @@ public class TeacherController {
     }
 
     @ApiOperation(value = "根据ID修改讲师")
-    @PostMapping("/updateTeacher/{id}")
+    @PostMapping("/updateTeacher")
     public CommonResponse updateTeacherById(
             @ApiParam(name = "teacher", value = "讲师对象", required = true)
             @RequestBody Teacher teacher){
         teacherService.updateById(teacher);
         return CommonResponse.ok();
     }
+
+
+    @ApiOperation(value = "根据ID删除讲师")
+    @DeleteMapping("/removeTeacher/{id}")
+    public CommonResponse removeTeacherById(
+            @ApiParam(name = "id", value = "讲师ID", required = true)
+            @PathVariable String id){
+        teacherService.removeById(id);
+        return CommonResponse.ok().data("result",true);
+    }
+
 
 }
 
