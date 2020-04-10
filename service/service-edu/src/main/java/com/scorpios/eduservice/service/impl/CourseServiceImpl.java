@@ -3,6 +3,7 @@ package com.scorpios.eduservice.service.impl;
 import com.scorpios.eduservice.entity.Course;
 import com.scorpios.eduservice.entity.CourseDescription;
 import com.scorpios.eduservice.entity.vo.CourseInfoVo;
+import com.scorpios.eduservice.entity.vo.CoursePublishVo;
 import com.scorpios.eduservice.mapper.CourseMapper;
 import com.scorpios.eduservice.service.CourseDescriptionService;
 import com.scorpios.eduservice.service.CourseService;
@@ -14,10 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>
- * 课程 服务实现类
- * </p>
- *
  * @author scorpios
  * @since 2020-04-07
  */
@@ -52,5 +49,45 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         courseDescription.setId(cid);
         courseDescriptionService.save(courseDescription);
         return cid;
+    }
+
+    //根据课程id查询课程基本信息
+    @Override
+    public CourseInfoVo getCourseInfo(String courseId) {
+        //1 查询课程表
+        Course eduCourse = baseMapper.selectById(courseId);
+        CourseInfoVo courseInfoVo = new CourseInfoVo();
+        BeanUtils.copyProperties(eduCourse,courseInfoVo);
+
+        //2 查询描述表
+        CourseDescription courseDescription = courseDescriptionService.getById(courseId);
+        courseInfoVo.setDescription(courseDescription.getDescription());
+        return courseInfoVo;
+    }
+
+    //修改课程信息
+    @Override
+    public void updateCourseInfo(CourseInfoVo courseInfoVo) {
+        //1 修改课程表
+        Course eduCourse = new Course();
+        BeanUtils.copyProperties(courseInfoVo,eduCourse);
+        int update = baseMapper.updateById(eduCourse);
+        if(update == 0) {
+            throw new MyException(20001,"修改课程信息失败");
+        }
+
+        //2 修改描述表
+        CourseDescription description = new CourseDescription();
+        description.setId(courseInfoVo.getId());
+        description.setDescription(courseInfoVo.getDescription());
+        courseDescriptionService.updateById(description);
+    }
+
+    //根据课程id查询课程确认信息
+    @Override
+    public CoursePublishVo publishCourseInfo(String id) {
+        //调用mapper
+        CoursePublishVo publishCourseInfo = baseMapper.getPublishCourseInfo(id);
+        return publishCourseInfo;
     }
 }
