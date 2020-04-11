@@ -66,7 +66,7 @@ public class ChapterServiceImpl extends ServiceImpl<ChapterMapper, Chapter> impl
             for (int m = 0; m < eduVideoList.size(); m++) {
                 //得到每个小节
                 Video eduVideo = eduVideoList.get(m);
-                //判断：小节里面chapterid和章节里面id是否一样
+                //判断：小节里面chapterId和章节里面id是否一样
                 if(eduVideo.getChapterId().equals(eduChapter.getId())) {
                     //进行封装
                     VideoVo videoVo = new VideoVo();
@@ -84,7 +84,7 @@ public class ChapterServiceImpl extends ServiceImpl<ChapterMapper, Chapter> impl
     ////删除章节的方法
     @Override
     public boolean deleteChapter(String chapterId) {
-        //根据chapterid章节id 查询小节表，如果查询数据，不进行删除
+        //根据chapterId章节id 查询小节表，如果查询数据，不进行删除
         QueryWrapper<Video> wrapper = new QueryWrapper<>();
         wrapper.eq("chapter_id",chapterId);
         int count = videoService.count(wrapper);
@@ -97,5 +97,13 @@ public class ChapterServiceImpl extends ServiceImpl<ChapterMapper, Chapter> impl
             //成功  1>0   0>0
             return result>0;
         }
+    }
+
+    //2 根据课程id删除章节
+    @Override
+    public void removeChapterByCourseId(String courseId) {
+        QueryWrapper<Chapter> wrapper = new QueryWrapper<>();
+        wrapper.eq("course_id",courseId);
+        baseMapper.delete(wrapper);
     }
 }

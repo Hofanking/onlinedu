@@ -5,9 +5,11 @@ import com.scorpios.eduservice.entity.CourseDescription;
 import com.scorpios.eduservice.entity.vo.CourseInfoVo;
 import com.scorpios.eduservice.entity.vo.CoursePublishVo;
 import com.scorpios.eduservice.mapper.CourseMapper;
+import com.scorpios.eduservice.service.ChapterService;
 import com.scorpios.eduservice.service.CourseDescriptionService;
 import com.scorpios.eduservice.service.CourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.scorpios.eduservice.service.VideoService;
 import com.scorpios.servicebase.config.handler.GlobalExceptionHandler;
 import com.scorpios.servicebase.config.handler.MyException;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +26,14 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     //课程描述注入
     @Autowired
     private CourseDescriptionService courseDescriptionService;
+
+
+    //注入小节和章节service
+    @Autowired
+    private VideoService eduVideoService;
+
+    @Autowired
+    private ChapterService chapterService;
 
     //添加课程基本信息的方法
     @Override
@@ -89,5 +99,25 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         //调用mapper
         CoursePublishVo publishCourseInfo = baseMapper.getPublishCourseInfo(id);
         return publishCourseInfo;
+    }
+
+
+    //删除课程
+    @Override
+    public void removeCourse(String courseId) {
+        //1 根据课程id删除小节
+        eduVideoService.removeVideoByCourseId(courseId);
+
+        //2 根据课程id删除章节
+        chapterService.removeChapterByCourseId(courseId);
+
+        //3 根据课程id删除描述
+        courseDescriptionService.removeById(courseId);
+
+        //4 根据课程id删除课程本身
+        int result = baseMapper.deleteById(courseId);
+        if(result == 0) { //失败返回
+            throw new MyException(20001,"删除失败");
+        }
     }
 }
