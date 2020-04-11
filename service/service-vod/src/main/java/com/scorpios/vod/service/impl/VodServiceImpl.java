@@ -60,7 +60,6 @@ public class VodServiceImpl implements VodService {
 
             //videoIdList值转换成 1,2,3
             String videoIds = StringUtils.join(videoIdList.toArray(), ",");
-
             //向request设置视频id
             request.setVideoIds(videoIds);
             //调用初始化对象的方法实现删除

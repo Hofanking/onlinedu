@@ -22,7 +22,7 @@ public class VodController {
     private VodService vodService;
 
     //上传视频到阿里云
-    @PostMapping("uploadAilynVideo")
+    @PostMapping("/uploadAilynVideo")
     public CommonResponse uploadAilynVideo(MultipartFile file) {
         //返回上传视频id
         String videoId = vodService.uploadAilynVideo(file);
@@ -30,7 +30,7 @@ public class VodController {
     }
 
     //根据视频id删除阿里云视频
-    @DeleteMapping("removeAlyVideo/{id}")
+    @DeleteMapping("/removeAlyVideo/{id}")
     public CommonResponse removeAlyVideo(@PathVariable String id) {
         try {
             //初始化对象
@@ -50,7 +50,7 @@ public class VodController {
 
     //删除多个阿里云视频的方法
     //参数多个视频id  List videoIdList
-    @DeleteMapping("delete-batch")
+    @DeleteMapping("deleteBatch")
     public CommonResponse deleteBatch(@RequestParam("videoIdList") List<String> videoIdList) {
         vodService.removeMoreAlyVideo(videoIdList);
         return CommonResponse.ok();
