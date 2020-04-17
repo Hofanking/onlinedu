@@ -44,7 +44,7 @@ public class TestVod {
     public static void getPlayAuth() throws Exception{
 
 //        DefaultAcsClient client = InitObject.initVodClient("LTAI4FvvVEWiTJ3GNJJqJnk7", "9st82dv7EvFk9mTjYO1XXbM632fRbG");
-        DefaultAcsClient client = InitObject.initVodClient("LTAI4FigyGtW3SuEATLkoCz8", "kqnxj9cT6z3KrggniB5IPM5vJAPiQg");
+        DefaultAcsClient client = InitObject.initVodClient("keyId", "keySecret");
 
         GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
         GetVideoPlayAuthResponse response = new GetVideoPlayAuthResponse();
@@ -56,7 +56,7 @@ public class TestVod {
     //1 根据视频id获取视频播放地址
     public static void getPlayUrl() throws Exception{
         //创建初始化对象
-        DefaultAcsClient client = InitObject.initVodClient("LTAI4FigyGtW3SuEATLkoCz8", "kqnxj9cT6z3KrggniB5IPM5vJAPiQg");
+        DefaultAcsClient client = InitObject.initVodClient("keyId", "keySecret");
 
         //创建获取视频地址request和response
         GetPlayInfoRequest request = new GetPlayInfoRequest();
