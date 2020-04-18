@@ -2,6 +2,8 @@ package com.scorpios.vod.controller;
 
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthRequest;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthResponse;
 import com.scorpios.common.utils.CommonResponse;
 import com.scorpios.servicebase.config.handler.MyException;
 import com.scorpios.vod.Utils.ConstantVodUtils;
@@ -54,5 +56,26 @@ public class VodController {
     public CommonResponse deleteBatch(@RequestParam("videoIdList") List<String> videoIdList) {
         vodService.removeMoreAlyVideo(videoIdList);
         return CommonResponse.ok();
+    }
+
+
+    //根据视频id获取视频凭证
+    @GetMapping("getPlayAuth/{id}")
+    public CommonResponse getPlayAuth(@PathVariable String id) {
+        try {
+            //创建初始化对象
+            DefaultAcsClient client =
+                    InitVodCilent.initVodClient(ConstantVodUtils.ACCESS_KEY_ID, ConstantVodUtils.ACCESS_KEY_SECRET);
+            //创建获取凭证request和response对象
+            GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
+            //向request设置视频id
+            request.setVideoId(id);
+            //调用方法得到凭证
+            GetVideoPlayAuthResponse response = client.getAcsResponse(request);
+            String playAuth = response.getPlayAuth();
+            return CommonResponse.ok().data("playAuth",playAuth);
+        }catch(Exception e) {
+            throw new MyException(20001,"获取凭证失败");
+        }
     }
 }

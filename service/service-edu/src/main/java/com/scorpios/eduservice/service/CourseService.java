@@ -1,9 +1,14 @@
 package com.scorpios.eduservice.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.scorpios.eduservice.entity.Course;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.scorpios.eduservice.entity.frontvo.CourseFrontVo;
+import com.scorpios.eduservice.entity.frontvo.CourseWebVo;
 import com.scorpios.eduservice.entity.vo.CourseInfoVo;
 import com.scorpios.eduservice.entity.vo.CoursePublishVo;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -29,4 +34,10 @@ public interface CourseService extends IService<Course> {
 
     //删除课程
     void removeCourse(String courseId);
+
+    //1 条件查询带分页查询课程前台
+    Map<String, Object> getCourseFrontList(Page<Course> pageCourse, CourseFrontVo courseFrontVo);
+
+    //根据课程id，编写sql语句查询课程信息
+    CourseWebVo getBaseCourseInfo(String courseId);
 }
