@@ -3,9 +3,11 @@ package com.scorpios.memberservice.controller;
 
 import com.scorpios.common.utils.CommonResponse;
 import com.scorpios.common.utils.JwtUtils;
+import com.scorpios.common.utils.ordervo.UcenterMemberOrder;
 import com.scorpios.memberservice.entity.Member;
 import com.scorpios.memberservice.entity.vo.RegisterVo;
 import com.scorpios.memberservice.service.MemberService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +50,16 @@ public class MemberController {
         //查询数据库根据用户id获取用户信息
         Member member = memberService.getById(memberId);
         return CommonResponse.ok().data("userInfo",member);
+    }
+
+    //根据用户id获取用户信息
+    @PostMapping("getUserInfoOrder/{id}")
+    public UcenterMemberOrder getUserInfoOrder(@PathVariable("id") String id) {
+        Member member = memberService.getById(id);
+        // 把member对象里面值复制给UcenterMemberOrder对象
+        UcenterMemberOrder ucenterMemberOrder = new UcenterMemberOrder();
+        BeanUtils.copyProperties(member,ucenterMemberOrder);
+        return ucenterMemberOrder;
     }
 
 }
